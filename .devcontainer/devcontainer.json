@@ -5,7 +5,10 @@
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/",
     "overrideCommand": true,
     "remoteUser": "user",
-    "postStartCommand": "sudo chown -R user:user /opt/ && command -v pre-commit >/dev/null 2>&1 && pre-commit install --install-hooks || true",
+    "mounts": [
+        "source=${localEnv:USERPROFILE}\\.ssh,target=/home/user/.ssh,type=bind,consistency=cached"
+    ],
+    "postStartCommand": "sudo chown -R user:user /opt/ && command -v pre-commit >/dev/null 2>&1 && pre-commit install --install-hooks || true && sudo chown -R user:user /home/user/.ssh && sudo chmod 700 /home/user/.ssh && sudo chmod 600 /home/user/.ssh/id_* || true",
     "customizations": {
         "jetbrains": {
             "backend": "PyCharm",
